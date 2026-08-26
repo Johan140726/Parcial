@@ -1,0 +1,7 @@
+{
+  "name": "VelvetBlade",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
