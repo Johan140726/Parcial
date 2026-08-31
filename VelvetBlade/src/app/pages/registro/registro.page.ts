@@ -93,31 +93,38 @@ export class RegistroPage implements OnInit {
   }
 
   registrarUsuario(): void {
-    this.submitted = true;
-    this.errorMessage = '';
+  this.submitted = true;
+  this.errorMessage = '';
 
-    if (this.registroForm.invalid || !this.clavesCoinciden()) {
-      this.registroForm.markAllAsTouched();
-      return;
-    }
-
-    const usuario: Usuario = {
-      nombreCompleto: this.registroForm.value.nombreCompleto,
-      telefono: this.registroForm.value.telefono,
-      correo: this.registroForm.value.correo,
-      clave: this.registroForm.value.clave,
-      tipoPerfil: this.registroForm.value.tipoPerfil,
-      aceptaTerminos: this.registroForm.value.aceptaTerminos
-    };
-
-    const registroExitoso = this.authService.registrar(usuario);
-
-    if (registroExitoso) {
-      this.router.navigate(['/login']);
-    } else {
-      this.errorMessage = 'No fue posible crear la cuenta.';
-    }
+  if (this.registroForm.invalid || !this.clavesCoinciden()) {
+    this.registroForm.markAllAsTouched();
+    return;
   }
+
+  const usuario: Usuario = {
+    nombreCompleto: this.registroForm.value.nombreCompleto,
+    telefono: this.registroForm.value.telefono,
+    correo: this.registroForm.value.correo,
+    clave: this.registroForm.value.clave,
+    tipoPerfil: this.registroForm.value.tipoPerfil,
+    aceptaTerminos: this.registroForm.value.aceptaTerminos
+  };
+
+  this.authService.registrar(usuario).subscribe({
+    next: () => {
+      this.router.navigate(['/login']);
+    },
+    error: (error) => {
+      if (error.status === 409) {
+        this.errorMessage = 'El correo ya está registrado.';
+      } else if (error.status === 400) {
+        this.errorMessage = error.error?.error || 'Todos los campos son obligatorios.';
+      } else {
+        this.errorMessage = 'No fue posible crear la cuenta. Verifica que el servidor esté funcionando.';
+      }
+    }
+  });
+}
 
   irALogin(): void {
     this.router.navigate(['/login']);
