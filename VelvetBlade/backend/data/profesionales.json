@@ -1,0 +1,14 @@
+[
+  {
+    "id": "p1",
+    "nombre": "Julián Torres",
+    "especialidad": "Barbero",
+    "estacion": "Estación 1"
+  },
+  {
+    "id": "p2",
+    "nombre": "Mariana Gil",
+    "especialidad": "Manicurista",
+    "estacion": "Estación 2"
+  }
+]

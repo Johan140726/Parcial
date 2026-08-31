@@ -1,0 +1,30 @@
+[
+  {
+    "id": "s1",
+    "nombre": "Corte Clásico",
+    "categoria": "barberia",
+    "descripcion": "Corte de cabello tradicional con acabado en navaja",
+    "duracion": 30
+  },
+  {
+    "id": "s2",
+    "nombre": "Afeitado Premium",
+    "categoria": "barberia",
+    "descripcion": "Afeitado con toalla caliente y productos premium",
+    "duracion": 45
+  },
+  {
+    "id": "s3",
+    "nombre": "Manicure Spa",
+    "categoria": "unas",
+    "descripcion": "Manicure completo con hidratación",
+    "duracion": 40
+  },
+  {
+    "id": "s4",
+    "nombre": "Uñas Esculpidas",
+    "categoria": "unas",
+    "descripcion": "Uñas acrílicas con diseño personalizado",
+    "duracion": 60
+  }
+]
