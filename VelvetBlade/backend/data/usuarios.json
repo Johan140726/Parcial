@@ -14,5 +14,13 @@
     "correo": "andres@correo.com",
     "password": "123456",
     "tipo": "especialista"
+  },
+  {
+    "id": "u3_1788205221210",
+    "nombre": "Danna Prueba",
+    "telefono": "3143638924",
+    "correo": "dannaprueba@gmail.com",
+    "password": "123456",
+    "tipo": "cliente"
   }
 ]
