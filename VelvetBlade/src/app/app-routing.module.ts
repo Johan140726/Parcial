@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { authGuard } from './guards/auth-guard';
 
 const routes: Routes = [
   {
@@ -19,10 +20,14 @@ const routes: Routes = [
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },
-  {
-    path: 'seleccion-servicio',
-    loadChildren: () => import('./pages/seleccion-servicio/seleccion-servicio.module').then( m => m.SeleccionServicioPageModule)
-  },
+
+{
+  path: 'seleccion-servicio',
+  loadChildren: () => import('./pages/seleccion-servicio/seleccion-servicio.module')
+    .then(m => m.SeleccionServicioPageModule),
+  canActivate: [authGuard]
+},
+
   {
     path: 'horario-disponibilidad',
     loadChildren: () => import('./pages/horario-disponibilidad/horario-disponibilidad.module').then( m => m.HorarioDisponibilidadPageModule)
