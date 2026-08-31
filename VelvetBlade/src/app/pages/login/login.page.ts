@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -16,10 +16,11 @@ export class LoginPage implements OnInit {
   errorMessage = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  private formBuilder: FormBuilder,
+  private authService: AuthService,
+  private router: Router,
+  private changeDetectorRef: ChangeDetectorRef
+) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -42,25 +43,37 @@ export class LoginPage implements OnInit {
     return this.loginForm.get('clave');
   }
 
-  iniciarSesion(): void {
-    this.submitted = true;
-    this.errorMessage = '';
+iniciarSesion(): void {
+  this.submitted = true;
+  this.errorMessage = '';
 
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    const { correo, clave } = this.loginForm.value;
-
-    const loginExitoso = this.authService.login(correo, clave);
-
-    if (loginExitoso) {
-      this.router.navigate(['/seleccion-servicio']);
-    } else {
-      this.errorMessage = 'Correo o contraseña incorrectos.';
-    }
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    this.changeDetectorRef.detectChanges();
+    return;
   }
+
+  const correo = this.loginForm.get('correo')?.value;
+  const clave = this.loginForm.get('clave')?.value;
+
+  this.authService.login(correo, clave).subscribe({
+    next: (usuario) => {
+      console.log('Login exitoso:', usuario);
+      this.router.navigate(['/seleccion-servicio']);
+    },
+    error: (error) => {
+      console.log('Error de login:', error);
+
+      if (error.status === 401) {
+        this.errorMessage = 'Correo o contraseña incorrectos.';
+      } else {
+        this.errorMessage = 'No se pudo conectar con el servidor.';
+      }
+
+      this.changeDetectorRef.detectChanges();
+    }
+  });
+}
 
   irARegistro(): void {
     this.router.navigate(['/registro']);
