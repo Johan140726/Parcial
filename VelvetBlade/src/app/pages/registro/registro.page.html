@@ -1,13 +1,305 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registro</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="registro-page">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registro</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="registro-container">
+
+    <div class="brand-section">
+      <div class="brand-icon">
+        VB
+      </div>
+
+      <h1>VELVET & BLADE</h1>
+
+      <p>Barbería de Autor · Spa de Uñas</p>
+    </div>
+
+    <div class="form-card">
+
+      <h2>Crear cuenta</h2>
+
+      <p class="subtitle">
+        Regístrate para disfrutar nuestros servicios
+      </p>
+
+      <form
+        [formGroup]="registroForm"
+        (ngSubmit)="registrarUsuario()"
+      >
+
+        <!-- Nombre -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="nombreCompleto?.invalid && (nombreCompleto?.touched || submitted)"
+        >
+          <ion-icon
+            name="person-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-input
+            type="text"
+            label="Nombre completo"
+            labelPlacement="floating"
+            formControlName="nombreCompleto"
+            autocomplete="name">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="nombreCompleto?.hasError('required') && (nombreCompleto?.touched || submitted)"
+        >
+          El nombre completo es obligatorio.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="nombreCompleto?.hasError('minlength') && (nombreCompleto?.touched || submitted)"
+        >
+          Ingresa un nombre válido.
+        </div>
+
+
+        <!-- Teléfono -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="telefono?.invalid && (telefono?.touched || submitted)"
+        >
+          <ion-icon
+            name="call-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-input
+            type="tel"
+            label="Teléfono"
+            labelPlacement="floating"
+            formControlName="telefono"
+            inputmode="numeric"
+            autocomplete="tel">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="telefono?.hasError('required') && (telefono?.touched || submitted)"
+        >
+          El teléfono es obligatorio.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="telefono?.hasError('pattern') && (telefono?.touched || submitted)"
+        >
+          Ingresa un número de teléfono válido.
+        </div>
+
+
+        <!-- Correo -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="correo?.invalid && (correo?.touched || submitted)"
+        >
+          <ion-icon
+            name="mail-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-input
+            type="email"
+            label="Correo electrónico"
+            labelPlacement="floating"
+            formControlName="correo"
+            autocomplete="email">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="correo?.hasError('required') && (correo?.touched || submitted)"
+        >
+          El correo electrónico es obligatorio.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="correo?.hasError('email') && (correo?.touched || submitted)"
+        >
+          Ingresa un correo electrónico válido.
+        </div>
+
+
+        <!-- Contraseña -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="clave?.invalid && (clave?.touched || submitted)"
+        >
+          <ion-icon
+            name="lock-closed-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-input
+            type="password"
+            label="Contraseña"
+            labelPlacement="floating"
+            formControlName="clave"
+            autocomplete="new-password">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="clave?.hasError('required') && (clave?.touched || submitted)"
+        >
+          La contraseña es obligatoria.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="clave?.hasError('minlength') && (clave?.touched || submitted)"
+        >
+          La contraseña debe tener mínimo 6 caracteres.
+        </div>
+
+
+        <!-- Confirmar contraseña -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="(!clavesCoinciden() || confirmarClave?.invalid) && (confirmarClave?.touched || submitted)"
+        >
+          <ion-icon
+            name="shield-checkmark-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-input
+            type="password"
+            label="Confirmar contraseña"
+            labelPlacement="floating"
+            formControlName="confirmarClave"
+            autocomplete="new-password">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="confirmarClave?.hasError('required') && (confirmarClave?.touched || submitted)"
+        >
+          Confirma tu contraseña.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="!clavesCoinciden() && confirmarClave?.touched"
+        >
+          Las contraseñas no coinciden.
+        </div>
+
+
+        <!-- Tipo de perfil -->
+        <div class="profile-section">
+
+          <p class="field-title">
+            Tipo de perfil
+          </p>
+
+          <ion-radio-group formControlName="tipoPerfil">
+
+  <ion-item
+    lines="none"
+    class="profile-option"
+  >
+    <ion-radio
+      slot="start"
+      value="Cliente">
+    </ion-radio>
+
+    <ion-label>Cliente</ion-label>
+  </ion-item>
+
+  <ion-item
+    lines="none"
+    class="profile-option"
+  >
+    <ion-radio
+      slot="start"
+      value="Especialista">
+    </ion-radio>
+
+    <ion-label>Especialista</ion-label>
+  </ion-item>
+
+</ion-radio-group>
+
+        </div>
+
+
+        <!-- Términos -->
+        <ion-item
+          lines="none"
+          class="terms-item"
+        >
+          <ion-checkbox
+            slot="start"
+            formControlName="aceptaTerminos">
+          </ion-checkbox>
+
+          <ion-label>
+            Acepto los términos y condiciones de Velvet & Blade.
+          </ion-label>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="aceptaTerminos?.invalid && (aceptaTerminos?.touched || submitted)"
+        >
+          Debes aceptar los términos y condiciones.
+        </div>
+
+
+        <!-- Error general -->
+        <div
+          class="general-error"
+          *ngIf="errorMessage"
+        >
+          {{ errorMessage }}
+        </div>
+
+
+        <!-- Crear cuenta -->
+        <ion-button
+          expand="block"
+          type="submit"
+          class="register-main-button"
+        >
+          CREAR CUENTA
+        </ion-button>
+
+      </form>
+
+
+      <!-- Volver al login -->
+      <div class="login-section">
+
+        <span>¿Ya tienes una cuenta?</span>
+
+        <button
+          type="button"
+          class="login-button"
+          (click)="irALogin()"
+        >
+          Iniciar sesión
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </ion-content>
