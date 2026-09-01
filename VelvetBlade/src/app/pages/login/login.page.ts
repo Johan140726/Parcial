@@ -59,7 +59,7 @@ iniciarSesion(): void {
   this.authService.login(correo, clave).subscribe({
     next: (usuario) => {
       console.log('Login exitoso:', usuario);
-      this.router.navigate(['/seleccion-servicio']);
+      this.router.navigate(['/servicios']);
     },
     error: (error) => {
       console.log('Error de login:', error);

@@ -4,17 +4,17 @@ import { authGuard } from './guards/auth-guard';
 
 const routes: Routes = [
   {
+  path: 'login',
+  loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+},
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'registro',
@@ -40,6 +40,11 @@ const routes: Routes = [
     path: 'servicios',
     loadChildren: () => import('./pages/servicios/servicios.module').then( m => m.ServiciosPageModule)
   },
+  {
+    path: 'horarios',
+    loadChildren: () => import('./pages/horarios/horarios.module').then( m => m.HorariosPageModule)
+  },
+
 
 ];
 
