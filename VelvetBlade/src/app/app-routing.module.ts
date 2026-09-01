@@ -20,14 +20,12 @@ const routes: Routes = [
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },
-
-{
-  path: 'seleccion-servicio',
-  loadChildren: () => import('./pages/seleccion-servicio/seleccion-servicio.module')
-    .then(m => m.SeleccionServicioPageModule),
-  canActivate: [authGuard]
-},
-
+  {
+    path: 'seleccion-servicio',
+    loadChildren: () => import('./pages/seleccion-servicio/seleccion-servicio.module')
+      .then(m => m.SeleccionServicioPageModule)
+    // Se removió el canActivate para permitir el acceso fluido desde servicios
+  },
   {
     path: 'horario-disponibilidad',
     loadChildren: () => import('./pages/horario-disponibilidad/horario-disponibilidad.module').then( m => m.HorarioDisponibilidadPageModule)
@@ -36,11 +34,14 @@ const routes: Routes = [
     path: 'historial-citas',
     loadChildren: () => import('./pages/historial-citas/historial-citas.module').then( m => m.HistorialCitasPageModule)
   },
-{
+  {
     path: 'servicios',
     loadChildren: () => import('./pages/servicios/servicios.module').then( m => m.ServiciosPageModule)
   },
-
+  {
+    path: 'reservar-cita',
+    loadChildren: () => import('./pages/reservar-cita/reservar-cita.module').then( m => m.ReservarCitaPageModule)
+  }
 ];
 
 @NgModule({

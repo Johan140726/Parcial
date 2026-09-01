@@ -1,0 +1,84 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/servicios" class="back-btn">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        VOLVER
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Agendar Cita</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding reserva-content">
+  <div class="reserva-container">
+    
+    <!-- 1. Tarjeta de Resumen del Servicio Seleccionado -->
+    <div class="card-section service-summary" *ngIf="servicioSeleccionado">
+      <div class="service-info">
+        <h3>{{ servicioSeleccionado.nombre }}</h3>
+        <p>{{ servicioSeleccionado.descripcion }}</p>
+        <div class="meta-info">
+          <span>⏱️ {{ servicioSeleccionado.duracionMinutos }} min</span>
+          <span class="precio">${{ servicioSeleccionado.precio | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Selección de Especialista -->
+    <div class="card-section">
+      <h4 class="section-title">👤 Selecciona un Especialista</h4>
+      <div class="especialistas-grid">
+        <div *ngFor="let esp of listaEspecialistas" 
+             class="especialista-card" 
+             [class.selected]="especialistaSeleccionado?.nombre === esp.nombre"
+             (click)="seleccionarEspecialista(esp)">
+          <img [src]="esp.imagen" [alt]="esp.nombre">
+          <div class="esp-details">
+            <h5>{{ esp.nombre }}</h5>
+            <p>{{ esp.estacionAsignada }}</p>
+            <span class="rating">⭐ {{ esp.calificacion }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Selección de Fecha -->
+    <div class="card-section">
+      <h4 class="section-title">📅 Selecciona la Fecha</h4>
+      <ion-datetime 
+        presentation="date" 
+        [(ngModel)]="fechaSeleccionada"
+        [min]="fechaMinima"
+        class="custom-datetime">
+      </ion-datetime>
+    </div>
+
+    <!-- 4. Horarios y Disponibilidad -->
+    <div class="card-section">
+      <div class="header-disponibilidad">
+        <h4 class="section-title">⏰ Horarios Disponibles</h4>
+        <span class="badge-disponible" [class.seleccionado]="horarioSeleccionado">
+          {{ horarioSeleccionado ? 'Horario Elegido' : 'Selecciona una hora' }}
+        </span>
+      </div>
+
+      <div class="horarios-grid">
+        <button *ngFor="let hora of horariosDisponibles" 
+                class="hora-chip"
+                [class.active]="horarioSeleccionado === hora"
+                (click)="seleccionarHorario(hora)">
+          {{ hora }}
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. Botón de Creación de Citas -->
+    <div class="action-container">
+      <ion-button expand="block" class="btn-confirmar" (click)="crearCita()" [disabled]="!formValido()">
+        Confirmar y Agendar Cita
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

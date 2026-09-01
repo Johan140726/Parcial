@@ -5,6 +5,44 @@
   align-items: center;
   --padding-start: 20px;
   --padding-end: 20px;
+  position: relative; /* Necesario para que el botón absoluto se ubique respecto a la pantalla */
+}
+
+/* Botón de perfil en la esquina superior derecha */
+.profile-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+
+  .profile-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+    border: 2px solid #581822;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    /* CORRECCIÓN AÑADIDA: Forzar dimensiones y display en la imagen para evitar que colapse */
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      display: block;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 15px rgba(88, 24, 34, 0.25);
+    }
+  }
 }
 
 // Contenedor general que centra todo el cuerpo de la vista
@@ -93,7 +131,7 @@
   }
 }
 
-/* Cambio a Flexbox con justify-content: center para garantizar que elementos impares o únicos queden centrados */
+/* Flexbox con justify-content: center para garantizar que elementos impares o únicos queden centrados */
 .grid-servicios,
 .grid-profesionales {
   display: flex;
@@ -113,7 +151,7 @@
   justify-content: space-between;
   border: 1px solid #eaeaea;
   transition: transform 0.2s ease;
-  width: 330px; /* Mantiene el ancho fijo de tus tarjetas originales */
+  width: 330px;
 
   &:hover {
     transform: translateY(-4px);
@@ -193,7 +231,7 @@
   text-align: center;
   padding: 20px;
   border: 1px solid #eaeaea;
-  width: 280px; /* Ancho fijo para estandarizar las tarjetas de profesionales */
+  width: 280px;
 
   .prof-image-container {
     width: 80px;
