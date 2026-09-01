@@ -1,0 +1,148 @@
+<ion-content class="ion-padding servicios-content">
+  <div class="main-wrapper">
+    <!-- Cabecera de la sección -->
+    <div class="header-container">
+      <div class="logo-badge">VB</div>
+      <h1>NUESTROS SERVICIOS</h1>
+      <p>Elige tu categoría y vive una experiencia de autor</p>
+    </div>
+
+    <!-- Pestañas Principales -->
+    <div class="categories-tabs main-tabs">
+      <button 
+        [class.active]="categoriaPrincipal === 'caballeros'" 
+        (click)="cambiarCategoriaPrincipal('caballeros')">
+        👔 Caballeros
+      </button>
+      <button 
+        [class.active]="categoriaPrincipal === 'damas'" 
+        (click)="cambiarCategoriaPrincipal('damas')">
+        👠 Damas
+      </button>
+    </div>
+
+    <!-- Subfiltros Caballeros -->
+    <div class="categories-tabs sub-tabs" *ngIf="categoriaPrincipal === 'caballeros'">
+      <button [class.active]="subFiltroCaballeros === 'corte'" (click)="cambiarSubFiltroCaballeros('corte')">✂️ Cabello & Barba</button>
+      <button [class.active]="subFiltroCaballeros === 'unas'" (click)="cambiarSubFiltroCaballeros('unas')">💅 Uñas</button>
+      <button [class.active]="subFiltroCaballeros === 'cejas'" (click)="cambiarSubFiltroCaballeros('cejas')">👁️ Cejas</button>
+    </div>
+
+    <!-- Subfiltros Damas -->
+    <div class="categories-tabs sub-tabs" *ngIf="categoriaPrincipal === 'damas'">
+      <button [class.active]="subFiltroDamas === 'cabello'" (click)="cambiarSubFiltroDamas('cabello')">💇‍♀️ Cabello</button>
+      <button [class.active]="subFiltroDamas === 'unas'" (click)="cambiarSubFiltroDamas('unas')">💅 Uñas</button>
+      <button [class.active]="subFiltroDamas === 'cejas'" (click)="cambiarSubFiltroDamas('cejas')">👁️ Cejas & Pestañas</button>
+    </div>
+
+    <!-- Sección de Catálogo Disponible -->
+    <div class="section-container">
+      <h2>Catálogo Disponible</h2>
+      
+      <!-- Caballeros Grids -->
+      <ng-container *ngIf="categoriaPrincipal === 'caballeros'">
+        <div class="grid-servicios" *ngIf="subFiltroCaballeros === 'corte'">
+          <div class="service-card" *ngFor="let s of serviciosCaballerosCorte" (click)="seleccionarServicio(s)">
+            <div class="card-image-container"><img [src]="s.imagen" alt="Servicio"></div>
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row"><span class="price">${{ s.precio | number }}</span><span class="duration">⏱️ {{ s.duracionMinutos }} min</span></div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+
+        <div class="grid-servicios" *ngIf="subFiltroCaballeros === 'unas'">
+          <div class="service-card" *ngFor="let s of serviciosCaballerosUnas" (click)="seleccionarServicio(s)">
+            <div class="card-image-container"><img [src]="s.imagen" alt="Servicio"></div>
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row"><span class="price">${{ s.precio | number }}</span><span class="duration">⏱️ {{ s.duracionMinutos }} min</span></div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+
+        <div class="grid-servicios" *ngIf="subFiltroCaballeros === 'cejas'">
+          <div class="service-card" *ngFor="let s of serviciosCaballerosCejas" (click)="seleccionarServicio(s)">
+            <div class="card-image-container"><img [src]="s.imagen" alt="Servicio"></div>
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row"><span class="price">${{ s.precio | number }}</span><span class="duration">⏱️ {{ s.duracionMinutos }} min</span></div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Damas Grids -->
+      <ng-container *ngIf="categoriaPrincipal === 'damas'">
+        <div class="grid-servicios" *ngIf="subFiltroDamas === 'cabello'">
+          <div class="service-card" *ngFor="let s of serviciosDamasCabello" (click)="seleccionarServicio(s)">
+            <div class="card-image-container"><img [src]="s.imagen" alt="Servicio"></div>
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row"><span class="price">${{ s.precio | number }}</span><span class="duration">⏱️ {{ s.duracionMinutos }} min</span></div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+
+        <div class="grid-servicios" *ngIf="subFiltroDamas === 'unas'">
+          <div class="service-card" *ngFor="let s of serviciosDamasUnas" (click)="seleccionarServicio(s)">
+            <div class="card-image-container"><img [src]="s.imagen" alt="Servicio"></div>
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row"><span class="price">${{ s.precio | number }}</span><span class="duration">⏱️ {{ s.duracionMinutos }} min</span></div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+
+        <div class="grid-servicios" *ngIf="subFiltroDamas === 'cejas'">
+          <div class="service-card" *ngFor="let s of serviciosDamasCejas" (click)="seleccionarServicio(s)">
+            <div class="card-image-container"><img [src]="s.imagen" alt="Servicio"></div>
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row"><span class="price">${{ s.precio | number }}</span><span class="duration">⏱️ {{ s.duracionMinutos }} min</span></div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Sección de Profesionales (Centrada) -->
+    <div class="section-container">
+      <h2>Nuestros Especialistas</h2>
+      
+      <div class="grid-profesionales" *ngIf="categoriaPrincipal === 'caballeros'">
+        <div class="profesional-card" *ngFor="let prof of profesionalesCaballeros">
+          <div class="prof-image-container"><img [src]="prof.imagen" alt="Especialista"></div>
+          <div class="prof-info">
+            <h3>{{ prof.nombre }}</h3>
+            <p class="estacion">📍 {{ prof.estacionAsignada }}</p>
+            <span class="rating">⭐ {{ prof.calificacion }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-profesionales" *ngIf="categoriaPrincipal === 'damas'">
+        <div class="profesional-card" *ngFor="let prof of profesionalesDamas">
+          <div class="prof-image-container"><img [src]="prof.imagen" alt="Especialista"></div>
+          <div class="prof-info">
+            <h3>{{ prof.nombre }}</h3>
+            <p class="estacion">📍 {{ prof.estacionAsignada }}</p>
+            <span class="rating">⭐ {{ prof.calificacion }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

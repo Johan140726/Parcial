@@ -1,0 +1,233 @@
+.servicios-content {
+  --background: #fcfcfc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  --padding-start: 20px;
+  --padding-end: 20px;
+}
+
+// Contenedor general que centra todo el cuerpo de la vista
+.main-wrapper {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.header-container {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+
+  .logo-badge {
+    width: 50px;
+    height: 50px;
+    background: #581822;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin: 0 auto 10px auto;
+    font-size: 1.2rem;
+  }
+
+  h1 {
+    color: #2b2b2b;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: #666;
+    font-size: 0.95rem;
+  }
+}
+
+.categories-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  width: 100%;
+  flex-wrap: wrap;
+
+  button {
+    background: white;
+    border: 2px solid #581822;
+    color: #581822;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active, &:hover {
+      background: #581822;
+      color: white;
+    }
+  }
+}
+
+.section-container {
+  width: 100%;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    border-left: 4px solid #581822;
+    padding-left: 10px;
+    width: 100%;
+    max-width: 1060px;
+  }
+}
+
+/* Cambio a Flexbox con justify-content: center para garantizar que elementos impares o únicos queden centrados */
+.grid-servicios,
+.grid-profesionales {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.service-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #eaeaea;
+  transition: transform 0.2s ease;
+  width: 330px; /* Mantiene el ancho fijo de tus tarjetas originales */
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  .card-image-container {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .card-info {
+    padding: 16px;
+
+    h3 {
+      font-size: 1.05rem;
+      color: #222;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    p {
+      color: #666;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .details-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+
+      .price {
+        color: #581822;
+        font-size: 1.05rem;
+      }
+
+      .duration {
+        color: #777;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .btn-action {
+    width: 100%;
+    background: #581822;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #401118;
+    }
+  }
+}
+
+.profesional-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #eaeaea;
+  width: 280px; /* Ancho fijo para estandarizar las tarjetas de profesionales */
+
+  .prof-image-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border: 3px solid #581822;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .prof-info {
+    h3 {
+      font-size: 1.05rem;
+      color: #222;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .estacion {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .rating {
+      color: #f39c12;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  }
+}
