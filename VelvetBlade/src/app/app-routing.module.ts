@@ -4,17 +4,17 @@ import { authGuard } from './guards/auth-guard';
 
 const routes: Routes = [
   {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'registro',
@@ -24,7 +24,6 @@ const routes: Routes = [
     path: 'seleccion-servicio',
     loadChildren: () => import('./pages/seleccion-servicio/seleccion-servicio.module')
       .then(m => m.SeleccionServicioPageModule)
-    // Se removió el canActivate para permitir el acceso fluido desde servicios
   },
   {
     path: 'horario-disponibilidad',
@@ -41,6 +40,10 @@ const routes: Routes = [
   {
     path: 'reservar-cita',
     loadChildren: () => import('./pages/reservar-cita/reservar-cita.module').then( m => m.ReservarCitaPageModule)
+  },
+  {
+    path: 'horarios',
+    loadChildren: () => import('./pages/horarios/horarios.module').then( m => m.HorariosPageModule)
   }
 ];
 
