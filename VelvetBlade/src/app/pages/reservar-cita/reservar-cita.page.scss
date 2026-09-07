@@ -1,0 +1,324 @@
+.reserva-content {
+  --background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Header con título centrado total (vertical y horizontal), mayúsculas y negrita */
+.custom-toolbar {
+  --background: #ffffff;
+  --color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid #eaeaea;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  position: relative;
+
+  .back-btn {
+    --background: #f3f4f6;
+    --background-hover: #e5e7eb;
+    --color: #1f2937;
+    --border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+    height: 36px;
+    padding: 0 10px;
+    margin-left: 4px;
+  }
+
+  /* Título centrado horizontal y verticalmente, en mayúsculas y con negrita */
+  ion-title {
+    color: #111111;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+    text-transform: uppercase;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    margin: 0;
+  }
+
+  ion-buttons {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.reserva-container {
+  max-width: 650px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 40px;
+}
+
+.card-section {
+  background: #fbf2f3;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(88, 24, 34, 0.04);
+  border: 1px solid #ebd4d7;
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3b1016;
+    margin-bottom: 14px;
+    font-family: inherit;
+  }
+}
+
+.service-summary {
+  background: linear-gradient(135deg, #fbf2f3 0%, #f7e6e8 100%);
+  border-left: 5px solid #581822;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #2c1518;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #665255;
+    margin-bottom: 14px;
+  }
+
+  .meta-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    span:not(.precio) {
+      color: #000000 !important;
+    }
+
+    .precio {
+      color: #581822;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+  }
+}
+
+.especialistas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+
+  .especialista-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid #ebd4d7;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .esp-details {
+      h5 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 2px;
+      }
+      p {
+        font-size: 0.75rem;
+        color: #777;
+        margin-bottom: 4px;
+      }
+      .rating {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #d97706;
+      }
+    }
+
+    &.selected {
+      border-color: #581822;
+      background: #fdf8f8;
+      box-shadow: 0 0 0 2px rgba(88, 24, 34, 0.15);
+    }
+
+    &:hover {
+      border-color: #7d2432;
+    }
+  }
+}
+
+.custom-datetime {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: #581822 !important;
+  --background: #581822 !important;
+  --color: #ffffff !important;
+  color: #ffffff !important;
+  
+  --ion-color-base: #581822 !important;
+  --ion-color-primary: #ffffff !important;
+  --ion-color-primary-contrast: #581822 !important;
+  
+  box-shadow: 0 8px 20px rgba(88, 24, 34, 0.2);
+  padding: 8px;
+  display: block;
+
+  ::ng-deep {
+    .calendar-month-header, 
+    .calendar-day-of-week, 
+    .calendar-day, 
+    button {
+      color: #ffffff !important;
+    }
+    
+    .calendar-day.calendar-day-active {
+      background: #ffffff !important;
+      color: #581822 !important;
+      font-weight: bold;
+      border-radius: 50%;
+    }
+  }
+}
+
+.header-disponibilidad {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .section-title {
+    margin-bottom: 0;
+  }
+
+  .badge-disponible {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #ecd3d5;
+    color: #581822;
+
+    &.seleccionado {
+      background: #dcfce7;
+      color: #15803d;
+    }
+  }
+}
+
+.horarios-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .hora-chip {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid #ebd4d7;
+    background: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.active {
+      background: #581822;
+      color: #ffffff;
+      border-color: #581822;
+      box-shadow: 0 4px 12px rgba(88, 24, 34, 0.25);
+    }
+
+    &:hover:not(.active) {
+      background: #f7e6e8;
+      border-color: #d8b4b8;
+    }
+  }
+}
+
+.action-container {
+  margin-top: 10px;
+
+  .btn-confirmar {
+    --background: #581822;
+    --background-hover: #401118;
+    --color: #ffffff !important;
+    --border-radius: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    height: 52px;
+    font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(88, 24, 34, 0.3);
+  }
+}
+
+.hora-chip.ocupado,
+.hora-chip[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f3f3f3 !important;
+  color: #999 !important;
+  border-color: #ddd !important;
+
+  ion-icon {
+    margin-left: 6px;
+    font-size: 0.9rem;
+  }
+}
+.esp-avatar-placeholder {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #581822;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.general-error {
+  margin: 12px 0;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: #fdecec;
+  color: #b3261e;
+  font-size: 13px;
+  text-align: center;
+}
+
+.hora-chip.ocupado,
+.hora-chip[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f3f3f3 !important;
+  color: #999 !important;
+  border-color: #ddd !important;
+
+  ion-icon {
+    margin-left: 6px;
+    font-size: 0.9rem;
+  }
+}

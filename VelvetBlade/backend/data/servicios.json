@@ -1,0 +1,58 @@
+[
+  {
+    "id": "s1",
+    "nombre": "Corte Clásico",
+    "categoria": "barberia",
+    "descripcion": "Corte de cabello tradicional con acabado en navaja",
+    "duracion": 30
+  },
+  {
+    "id": "s2",
+    "nombre": "Afeitado Premium",
+    "categoria": "barberia",
+    "descripcion": "Afeitado con toalla caliente y productos premium",
+    "duracion": 45
+  },
+  {
+    "id": "s3",
+    "nombre": "Manicure Spa",
+    "categoria": "unas",
+    "descripcion": "Manicure completo con hidratación y masaje",
+    "duracion": 40
+  },
+  {
+    "id": "s4",
+    "nombre": "Uñas Esculpidas",
+    "categoria": "unas",
+    "descripcion": "Uñas acrílicas con diseño personalizado",
+    "duracion": 60
+  },
+  {
+    "id": "s5",
+    "nombre": "Corte Degradado",
+    "categoria": "barberia",
+    "descripcion": "Corte con técnica de degradado (fade) y perfilado",
+    "duracion": 35
+  },
+  {
+    "id": "s6",
+    "nombre": "Barba y Bigote",
+    "categoria": "barberia",
+    "descripcion": "Arreglo de barba y bigote con diseño y aceites",
+    "duracion": 25
+  },
+  {
+    "id": "s7",
+    "nombre": "Pedicure Spa",
+    "categoria": "unas",
+    "descripcion": "Pedicure completo con exfoliación y hidratación",
+    "duracion": 50
+  },
+  {
+    "id": "s8",
+    "nombre": "Uñas de Gel",
+    "categoria": "unas",
+    "descripcion": "Aplicación de uñas de gel con brillo duradero",
+    "duracion": 55
+  }
+]

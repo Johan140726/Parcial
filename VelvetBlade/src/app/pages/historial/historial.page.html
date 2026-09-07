@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/servicios" fill="clear">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Mis citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list *ngIf="citas.length > 0; else sinCitas">
+    <ion-item-sliding *ngFor="let cita of citas">
+      <ion-item>
+        <ion-label>
+          <h2>{{ cita.fecha }} — {{ cita.hora }}</h2>
+          <p>Servicio: {{ cita.servicioId }}</p>
+          <p>Profesional: {{ cita.profesionalId }}</p>
+        </ion-label>
+        <ion-badge
+          slot="end"
+          [color]="cita.estado === 'confirmado' ? 'success' :
+                   cita.estado === 'cancelado' ? 'medium' :
+                   cita.estado === 'completado' ? 'tertiary' : 'warning'">
+          {{ cita.estado }}
+        </ion-badge>
+      </ion-item>
+
+      <ion-item-options side="end" *ngIf="cita.estado === 'confirmado'">
+        <ion-item-option color="danger" (click)="cancelarCita(cita.id)">
+          Cancelar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ng-template #sinCitas>
+    <div class="ion-text-center ion-padding">
+      <ion-icon name="calendar-outline" style="font-size: 48px;" color="medium"></ion-icon>
+      <p>Todavía no tienes citas reservadas.</p>
+    </div>
+  </ng-template>
+
+</ion-content>

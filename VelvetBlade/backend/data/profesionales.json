@@ -1,0 +1,38 @@
+[
+  {
+    "id": "p1",
+    "nombre": "Julián Torres",
+    "especialidad": "Barbero",
+    "estacion": "Estación 1"
+  },
+  {
+    "id": "p2",
+    "nombre": "Mariana Gil",
+    "especialidad": "Manicurista",
+    "estacion": "Estación 2"
+  },
+  {
+    "id": "p3",
+    "nombre": "Carlos Méndez",
+    "especialidad": "Barbero",
+    "estacion": "Estación 3"
+  },
+  {
+    "id": "p4",
+    "nombre": "Laura Díaz",
+    "especialidad": "Manicurista",
+    "estacion": "Estación 4"
+  },
+  {
+    "id": "p5",
+    "nombre": "Andrés Ríos",
+    "especialidad": "Barbero",
+    "estacion": "Estación 5"
+  },
+  {
+    "id": "p6",
+    "nombre": "Valentina Paz",
+    "especialidad": "Manicurista",
+    "estacion": "Estación 6"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "c1_1788738323931",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s1",
+    "profesionalId": "p1",
+    "fecha": "2026-09-10",
+    "hora": "09:00",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c2_1788738507467",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s1",
+    "profesionalId": "p1",
+    "fecha": "2026-09-12",
+    "hora": "09:00",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c3_1788738514049",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s1",
+    "profesionalId": "p1",
+    "fecha": "2026-09-12",
+    "hora": "10:00",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c4_1788738779833",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s2",
+    "profesionalId": "p1",
+    "fecha": "2026-09-10",
+    "hora": "14:00",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c5_1788738792998",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s2",
+    "profesionalId": "p1",
+    "fecha": "2026-09-10",
+    "hora": "17:00",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c6_1788739052712",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s3",
+    "profesionalId": "p2",
+    "fecha": "2026-11-29",
+    "hora": "18:30",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c7_1788739352641",
+    "usuarioId": "u5_1788736035576",
+    "servicioId": "s1",
+    "profesionalId": "p1",
+    "fecha": "2026-09-09",
+    "hora": "09:00",
+    "estado": "confirmado"
+  },
+  {
+    "id": "c8_1788741390979",
+    "usuarioId": "u4_1788305739303",
+    "servicioId": "s2",
+    "profesionalId": "p1",
+    "fecha": "2026-09-11",
+    "hora": "11:00",
+    "estado": "confirmado"
+  }
+]

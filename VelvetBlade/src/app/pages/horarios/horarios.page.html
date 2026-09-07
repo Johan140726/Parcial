@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/seleccion-servicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Elegir horario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-item lines="none">
+    <ion-label>
+      <h2>Selecciona una fecha</h2>
+    </ion-label>
+  </ion-item>
+
+  <ion-datetime
+    presentation="date"
+    [min]="fechaMinima"
+    (ionChange)="onFechaChange($event.detail.value)">
+  </ion-datetime>
+
+  <ion-item lines="none" *ngIf="fechaSeleccionada">
+    <ion-label>
+      <h2>Horarios disponibles</h2>
+    </ion-label>
+  </ion-item>
+
+  <ion-grid *ngIf="fechaSeleccionada">
+    <ion-row>
+      <ion-col size="6" *ngFor="let hora of horasDisponibles">
+        <ion-button
+          expand="block"
+          [fill]="horaSeleccionada === hora ? 'solid' : 'outline'"
+          [disabled]="horasOcupadas.includes(hora)"
+          (click)="horaSeleccionada = hora">
+          {{ hora }}
+          <ion-icon
+            *ngIf="horasOcupadas.includes(hora)"
+            name="lock-closed"
+            slot="end">
+          </ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-text color="medium" *ngIf="!fechaSeleccionada">
+    <p class="ion-padding">Selecciona una fecha para ver los horarios disponibles.</p>
+  </ion-text>
+
+  <div class="ion-padding-top">
+    <ion-button
+      expand="block"
+      [disabled]="!fechaSeleccionada || !horaSeleccionada"
+      (click)="confirmarCita()">
+      Confirmar cita
+    </ion-button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "u1",
+    "nombre": "Camila Rojas",
+    "telefono": "3011234567",
+    "correo": "camila@correo.com",
+    "password": "123456",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u2",
+    "nombre": "Andrés Peña",
+    "telefono": "3029876543",
+    "correo": "andres@correo.com",
+    "password": "123456",
+    "tipo": "especialista"
+  },
+  {
+    "id": "u3_1788205221210",
+    "nombre": "Danna Prueba",
+    "telefono": "3143638924",
+    "correo": "dannaprueba@gmail.com",
+    "password": "123456",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u4_1788305739303",
+    "nombre": "Johan Stivens Rojas Lozano",
+    "telefono": "350428791",
+    "correo": "JR@hotmail.com",
+    "password": "aeiou12345",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u5_1788736035576",
+    "nombre": "stivens",
+    "telefono": "12546213",
+    "correo": "stivens@gmail.com",
+    "password": "stivens2027",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u6_1788736479004",
+    "nombre": "test",
+    "telefono": "1212116",
+    "correo": "test@gmail.com",
+    "password": "test1234",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u7_1788736965998",
+    "nombre": "Test",
+    "telefono": "123",
+    "correo": "test@test.com",
+    "password": "123456",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u8_1788737282842",
+    "nombre": "Test2",
+    "telefono": "123",
+    "correo": "test2@test.com",
+    "password": "123456",
+    "tipo": "cliente"
+  }
+]

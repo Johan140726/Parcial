@@ -1,0 +1,123 @@
+<ion-content [fullscreen]="true" class="login-page">
+
+  <div class="login-container">
+
+    <div class="brand-section">
+      <div class="brand-icon">
+        VB
+      </div>
+
+      <h1>VELVET & BLADE</h1>
+
+      <p>Barbería de Autor · Spa de Uñas</p>
+    </div>
+
+    <div class="form-card">
+
+      <h2>Bienvenido</h2>
+
+      <p class="subtitle">
+        Ingresa a tu cuenta para continuar
+      </p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
+
+        <!-- Correo -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="correo?.invalid && (correo.touched || submitted)"
+        >
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+
+          <ion-input
+            type="email"
+            label="Correo electrónico"
+            labelPlacement="floating"
+            formControlName="correo"
+            autocomplete="email">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="correo?.hasError('required') && (correo?.touched || submitted)"
+        >
+          El correo electrónico es obligatorio.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="correo?.hasError('email') && (correo?.touched || submitted)"
+        >
+          Ingresa un correo electrónico válido.
+        </div>
+
+
+        <!-- Contraseña -->
+        <ion-item
+          lines="none"
+          class="input-item"
+          [class.input-error]="clave?.invalid && (clave.touched || submitted)"
+        >
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+
+          <ion-input
+            type="password"
+            label="Contraseña"
+            labelPlacement="floating"
+            formControlName="clave"
+            autocomplete="current-password">
+          </ion-input>
+        </ion-item>
+
+        <div
+          class="error-message"
+          *ngIf="clave?.hasError('required') && (clave?.touched || submitted)"
+        >
+          La contraseña es obligatoria.
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="clave?.hasError('minlength') && (clave?.touched || submitted)"
+        >
+          La contraseña debe tener mínimo 6 caracteres.
+        </div>
+
+
+        <!-- Error general -->
+        <div class="general-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+
+        <!-- Botón -->
+        <ion-button
+          expand="block"
+          type="submit"
+          class="login-button"
+          (click)="iniciarSesion()"
+        >
+          INICIAR SESIÓN
+        </ion-button>
+
+      </form>
+
+      <div class="register-section">
+        <span>¿No tienes una cuenta?</span>
+
+        <button
+          type="button"
+          class="register-button"
+          (click)="irARegistro()"
+        >
+          Crear cuenta
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

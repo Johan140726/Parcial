@@ -1,0 +1,79 @@
+<ion-content class="ion-padding servicios-content">
+  <!-- Botón de Perfil en la esquina superior derecha -->
+  <div class="profile-top-right">
+    <button class="profile-btn" (click)="irAlPerfil()">
+      <img [src]="fotoPerfil" alt="Perfil">
+    </button>
+  </div>
+
+  <div class="main-wrapper">
+    <!-- Cabecera de la sección -->
+    <div class="header-container">
+      <div class="logo-badge">VB</div>
+      <h1>NUESTROS SERVICIOS</h1>
+      <p>Elige tu categoría y vive una experiencia de autor</p>
+    </div>
+
+    <!-- Categorías reales (coinciden con el backend) -->
+    <div class="categories-tabs main-tabs">
+      <button
+        [class.active]="categoriaActiva === 'barberia'"
+        (click)="cambiarCategoria('barberia')">
+        ✂️ Barbería
+      </button>
+      <button
+        [class.active]="categoriaActiva === 'unas'"
+        (click)="cambiarCategoria('unas')">
+        💅 Uñas
+      </button>
+    </div>
+
+    <div *ngIf="cargando" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <ng-container *ngIf="!cargando">
+      <!-- Sección de Catálogo Disponible -->
+      <div class="section-container">
+        <h2>Catálogo Disponible</h2>
+
+        <div class="grid-servicios">
+          <div class="service-card" *ngFor="let s of serviciosFiltrados" (click)="seleccionarServicio(s)">
+            <div class="card-info">
+              <h3>{{ s.nombre }}</h3>
+              <p>{{ s.descripcion }}</p>
+              <div class="details-row">
+                <span class="duration">⏱️ {{ s.duracion }} min</span>
+              </div>
+            </div>
+            <button class="btn-action">Seleccionar</button>
+          </div>
+        </div>
+
+        <ion-text color="medium" *ngIf="serviciosFiltrados.length === 0">
+          <p class="ion-padding">No hay servicios disponibles en esta categoría.</p>
+        </ion-text>
+      </div>
+
+      <!-- Sección de Profesionales -->
+      <div class="section-container">
+        <h2>Nuestros Especialistas</h2>
+
+        <div class="grid-profesionales">
+          <div class="profesional-card" *ngFor="let prof of profesionalesFiltrados">
+            <div class="prof-avatar-placeholder">{{ prof.nombre.charAt(0) }}</div>
+            <div class="prof-info">
+              <h3>{{ prof.nombre }}</h3>
+              <p class="estacion">📍 {{ prof.estacion }}</p>
+              <span class="rating">{{ prof.especialidad }}</span>
+            </div>
+          </div>
+        </div>
+
+        <ion-text color="medium" *ngIf="profesionalesFiltrados.length === 0">
+          <p class="ion-padding">No hay especialistas disponibles en esta categoría.</p>
+        </ion-text>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>
