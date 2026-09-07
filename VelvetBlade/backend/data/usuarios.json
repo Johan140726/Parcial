@@ -22,5 +22,21 @@
     "correo": "dannaprueba@gmail.com",
     "password": "123456",
     "tipo": "cliente"
+  },
+  {
+    "id": "u4_1788305161108",
+    "nombre": "Danna",
+    "telefono": "3143638924",
+    "correo": "zambranoleidy925@gmail.com",
+    "password": "123456",
+    "tipo": "cliente"
+  },
+  {
+    "id": "u5_1788305422169",
+    "nombre": "Danna",
+    "telefono": "3143638345",
+    "correo": "danna@gmail.com",
+    "password": "123456",
+    "tipo": "cliente"
   }
 ]
