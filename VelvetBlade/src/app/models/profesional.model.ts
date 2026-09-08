@@ -1,7 +1,7 @@
 export interface Profesional {
-  id?: string;
+  id: string;
   nombre: string;
-  especialidad: 'barberia' | 'spa';
+  especialidad: 'caballeros' | 'damas';
   estacionAsignada: string;
   calificacion: number;
   avatar?: string;

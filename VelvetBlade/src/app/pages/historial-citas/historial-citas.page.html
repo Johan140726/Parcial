@@ -1,13 +1,64 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="historial-header">
   <ion-toolbar>
-    <ion-title>historial-citas</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/servicios">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Mis Citas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">historial-citas</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding historial-content">
+  <div class="main-wrapper">
+
+    <!-- Segmento estilo píldora, igual a los filtros de Servicios -->
+    <div class="categories-tabs">
+      <button
+        [class.active]="vista === 'activas'"
+        (click)="cambiarVista('activas')">
+        Activas
+      </button>
+      <button
+        [class.active]="vista === 'historial'"
+        (click)="cambiarVista('historial')">
+        Historial
+      </button>
+    </div>
+
+    <div class="ion-text-center" *ngIf="cargando">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando tus citas...</p>
+    </div>
+
+    <p class="error-texto" *ngIf="errorMensaje">{{ errorMensaje }}</p>
+
+    <div class="lista-citas" *ngIf="!cargando && !errorMensaje">
+      <div class="cita-card" *ngFor="let cita of citasFiltradas">
+        <div class="cita-info">
+          <div class="cita-top">
+            <h3>{{ cita.servicioNombre }}</h3>
+            <span class="badge-estado" [ngClass]="'estado-' + colorEstado(cita.estado)">
+              {{ cita.estado }}
+            </span>
+          </div>
+          <p class="cita-detalle">Con {{ cita.profesionalNombre }} · {{ cita.estacionAsignada }}</p>
+          <p class="cita-detalle">📅 {{ cita.fecha }} · 🕒 {{ cita.hora }}</p>
+
+          <button
+            *ngIf="puedeCancelar(cita)"
+            class="btn-cancelar"
+            [disabled]="cancelandoId === cita.id"
+            (click)="cancelarCita(cita)">
+            {{ cancelandoId === cita.id ? 'Cancelando...' : 'Cancelar cita' }}
+          </button>
+        </div>
+      </div>
+
+      <p class="ion-text-center vacio-texto" *ngIf="citasFiltradas.length === 0">
+        {{ vista === 'activas' ? 'No tienes citas activas por el momento.' : 'Aún no tienes historial de citas.' }}
+      </p>
+    </div>
+
+  </div>
 </ion-content>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-servicios',
@@ -8,13 +10,12 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class ServiciosPage implements OnInit {
-  categoriaPrincipal: string = 'caballeros'; 
-  subFiltroCaballeros: string = 'corte';    
-  subFiltroDamas: string = 'cabello';        
+  categoriaPrincipal: string = 'caballeros';
+  subFiltroCaballeros: string = 'corte';
+  subFiltroDamas: string = 'cabello';
 
   fotoPerfil: string = 'https://img.magnific.com/foto-gratis/mujer-joven-hermosa-sueter-rosa-calido-aspecto-natural-sonriente-retrato-aislado-cabello-largo_285396-896.jpg?semt=ais_hybrid&w=740&q=80';
 
-  // (Tus arrays de servicios y profesionales se mantienen igual...)
   serviciosCaballerosCorte = [
     { nombre: 'Barba', descripcion: 'Perfilamiento & Desvanecido De Barba', precio: 13000, duracionMinutos: 15, imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIGJP8QVTdvHPx4EmYmBu5iEHb8EX92ta_MOYfYFbEwxwU5gGIyGFwemE&s=10' },
     { nombre: 'Corte + Limpieza Facial', descripcion: 'Corte & Limpieza Facial Intensiva', precio: 70000, duracionMinutos: 50, imagen: 'https://cdn.atrapalo.com/o/event/294334/1017525.jpg?auto=avif&width=1280&quality=75' },
@@ -69,7 +70,7 @@ export class ServiciosPage implements OnInit {
 
   profesionalesCaballeros = [
     { nombre: 'Carlos Mendoza', estacionAsignada: 'Estación Barber 1', calificacion: 4.9, imagen: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80' },
-    { nombre: 'Mateo Rincón', estacionAsignada: 'Estación Barber 2', calificacion: 4.8, align: 'Estación Barber 2', imagen: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80' },
+    { nombre: 'Mateo Rincón', estacionAsignada: 'Estación Barber 2', calificacion: 4.8, imagen: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80' },
     { nombre: 'Andrés Vera', estacionAsignada: 'Estación Barber 3', calificacion: 5.0, imagen: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80' }
   ];
 
@@ -79,16 +80,39 @@ export class ServiciosPage implements OnInit {
     { nombre: 'Camila Torres', estacionAsignada: 'Estación Beauty 2', calificacion: 4.9, imagen: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private alertController: AlertController
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   actualizarFotoPerfil(nuevaUrl: string) {
     this.fotoPerfil = nuevaUrl;
   }
 
   irAlPerfil() {
-    this.router.navigate(['/perfil']);
+    this.router.navigate(['/historial-citas']);
+  }
+  async cerrarSesion() {
+    const alerta = await this.alertController.create({
+      header: 'Cerrar sesión',
+      message: '¿Seguro que quieres cerrar tu sesión?',
+      buttons: [
+        { text: 'No', role: 'cancel' },
+        {
+          text: 'Sí, cerrar sesión',
+          role: 'destructive',
+          handler: () => {
+            this.authService.cerrarSesion();
+            this.router.navigate(['/login']);
+          },
+        },
+      ],
+    });
+
+    await alerta.present();
   }
 
   cambiarCategoriaPrincipal(cat: string) {
@@ -103,10 +127,19 @@ export class ServiciosPage implements OnInit {
     this.subFiltroDamas = sub;
   }
 
-  // AQUÍ ESTÁ EL CAMBIO CLAVE: Apunta directo a reservar-cita y pasa el objeto
+  private generarId(nombre: string): string {
+    return nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  }
+
   seleccionarServicio(servicio: any) {
+    const servicioConCategoria = {
+      ...servicio,
+      id: this.generarId(servicio.nombre),
+      categoria: this.categoriaPrincipal === 'caballeros' ? 'caballeros' : 'damas',
+    };
+
     this.router.navigate(['/reservar-cita'], {
-      state: { servicioSeleccionado: servicio }
+      state: { servicioSeleccionado: servicioConCategoria }
     });
   }
 }

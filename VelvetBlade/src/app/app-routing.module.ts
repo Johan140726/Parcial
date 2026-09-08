@@ -26,10 +26,6 @@ const routes: Routes = [
       .then(m => m.SeleccionServicioPageModule)
   },
   {
-    path: 'horario-disponibilidad',
-    loadChildren: () => import('./pages/horario-disponibilidad/horario-disponibilidad.module').then( m => m.HorarioDisponibilidadPageModule)
-  },
-  {
     path: 'historial-citas',
     loadChildren: () => import('./pages/historial-citas/historial-citas.module').then( m => m.HistorialCitasPageModule)
   },
@@ -41,10 +37,7 @@ const routes: Routes = [
     path: 'reservar-cita',
     loadChildren: () => import('./pages/reservar-cita/reservar-cita.module').then( m => m.ReservarCitaPageModule)
   },
-  {
-    path: 'horarios',
-    loadChildren: () => import('./pages/horarios/horarios.module').then( m => m.HorariosPageModule)
-  }
+  
 ];
 
 @NgModule({

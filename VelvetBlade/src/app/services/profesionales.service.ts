@@ -3,41 +3,15 @@ import { Preferences } from '@capacitor/preferences';
 import { Observable, from } from 'rxjs';
 import { Profesional } from '../models/profesional.model';
 
-const CLAVE_PROFESIONALES = 'vb_profesionales';
+const CLAVE_PROFESIONALES = 'vb_profesionales_v2';
 
 const PROFESIONALES_INICIALES: Profesional[] = [
-  {
-    id: '1',
-    nombre: 'Carlos Mendoza',
-    especialidad: 'barberia',
-    estacionAsignada: 'Estación Barbería 1',
-    calificacion: 4.9,
-    activo: true,
-  },
-  {
-    id: '2',
-    nombre: 'Mateo Rincón',
-    especialidad: 'barberia',
-    estacionAsignada: 'Estación Barbería 2',
-    calificacion: 4.8,
-    activo: true,
-  },
-  {
-    id: '3',
-    nombre: 'Valentina Torres',
-    especialidad: 'spa',
-    estacionAsignada: 'Estación Spa 1',
-    calificacion: 5.0,
-    activo: true,
-  },
-  {
-    id: '4',
-    nombre: 'Sofía Gómez',
-    especialidad: 'spa',
-    estacionAsignada: 'Estación Spa 2',
-    calificacion: 4.9,
-    activo: true,
-  },
+  { id: 'p1', nombre: 'Carlos Mendoza', especialidad: 'caballeros', estacionAsignada: 'Estación Barber 1', calificacion: 4.9, activo: true },
+  { id: 'p2', nombre: 'Mateo Rincón', especialidad: 'caballeros', estacionAsignada: 'Estación Barber 2', calificacion: 4.8, activo: true },
+  { id: 'p3', nombre: 'Andrés Vera', especialidad: 'caballeros', estacionAsignada: 'Estación Barber 3', calificacion: 5.0, activo: true },
+  { id: 'p4', nombre: 'Sofía Valencia', especialidad: 'damas', estacionAsignada: 'Estación Stylist 1', calificacion: 4.9, activo: true },
+  { id: 'p5', nombre: 'Valentina Gómez', especialidad: 'damas', estacionAsignada: 'Estación Spa 1', calificacion: 4.7, activo: true },
+  { id: 'p6', nombre: 'Camila Torres', especialidad: 'damas', estacionAsignada: 'Estación Beauty 2', calificacion: 4.9, activo: true },
 ];
 
 @Injectable({
@@ -62,7 +36,7 @@ export class ProfesionalesService {
     return from(this.obtenerTodos());
   }
 
-  getProfesionalesPorEspecialidad(especialidad: 'barberia' | 'spa'): Observable<Profesional[]> {
+  getProfesionalesPorEspecialidad(especialidad: 'caballeros' | 'damas'): Observable<Profesional[]> {
     return from(
       this.obtenerTodos().then((profesionales) =>
         profesionales.filter((p) => p.especialidad === especialidad && p.activo)

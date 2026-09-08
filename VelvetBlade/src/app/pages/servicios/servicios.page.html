@@ -1,10 +1,14 @@
 <ion-content class="ion-padding servicios-content">
   <!-- Botón de Perfil en la esquina superior derecha -->
-  <div class="profile-top-right">
-    <button class="profile-btn" (click)="irAlPerfil()">
-      <img [src]="fotoPerfil" alt="Perfil">
-    </button>
-  </div>
+   <!-- Botón de Perfil y Cerrar Sesión en la esquina superior derecha -->
+<div class="profile-top-right">
+  <button class="logout-btn" (click)="cerrarSesion()">
+    <ion-icon name="log-out-outline"></ion-icon>
+  </button>
+  <button class="profile-btn" (click)="irAlPerfil()">
+    <img [src]="fotoPerfil" alt="Perfil">
+  </button>
+</div>
 
   <div class="main-wrapper">
     <!-- Cabecera de la sección -->

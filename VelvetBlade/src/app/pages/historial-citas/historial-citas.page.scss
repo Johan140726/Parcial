@@ -1,0 +1,153 @@
+.historial-header {
+  ion-toolbar {
+    --background: #fcfcfc;
+
+    ion-title {
+      color: #4a1130;
+      font-weight: 800;
+    }
+  }
+}
+
+.historial-content {
+  --background: #fcfcfc;
+}
+
+.main-wrapper {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.categories-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0 30px;
+
+  button {
+    background: white;
+    border: 2px solid #581822;
+    color: #581822;
+    padding: 10px 26px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active,
+    &:hover {
+      background: #581822;
+      color: white;
+    }
+  }
+}
+
+.lista-citas {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cita-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eaeaea;
+  padding: 18px 20px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .cita-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+
+    h3 {
+      font-size: 1.05rem;
+      color: #222;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  .cita-detalle {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 2px 0;
+  }
+
+  .badge-estado {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .estado-success {
+    background: #e3f6e8;
+    color: #1e7e34;
+  }
+
+  .estado-warning {
+    background: #fdf1dc;
+    color: #b8860b;
+  }
+
+  .estado-medium {
+    background: #eeeeee;
+    color: #777;
+  }
+
+  .estado-danger {
+    background: #fbe4e4;
+    color: #c0392b;
+  }
+
+  .btn-cancelar {
+    margin-top: 12px;
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+}
+
+.vacio-texto {
+  color: #666;
+  margin-top: 50px;
+  font-size: 0.95rem;
+}
+
+.error-texto {
+  color: #c0392b;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+ion-spinner {
+  color: #581822;
+}

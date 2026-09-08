@@ -12,16 +12,19 @@ const CLAVE_SESION = 'vb_usuario_actual';
 export class AuthService {
   private usuarioActual: Usuario | null = null;
 
+  private listoPromise: Promise<void>;
+
   constructor() {
-    // Al crear el servicio, intentamos recuperar la sesión guardada
-    // (esto es async, así que "usuarioActual" queda listo poco después,
-    // no en el mismo instante en que arranca la app).
-    this.cargarSesionGuardada();
+    this.listoPromise = this.cargarSesionGuardada();
   }
 
   private async cargarSesionGuardada(): Promise<void> {
     const { value } = await Preferences.get({ key: CLAVE_SESION });
     this.usuarioActual = value ? (JSON.parse(value) as Usuario) : null;
+  }
+
+  async esperarListo(): Promise<void> {
+    return this.listoPromise;
   }
 
   private async obtenerUsuarios(): Promise<Usuario[]> {

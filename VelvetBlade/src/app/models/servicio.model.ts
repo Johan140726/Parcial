@@ -1,9 +1,9 @@
 export interface Servicio {
-  id?: string;
+  id: string;
   nombre: string;
   descripcion: string;
   precio: number;
   duracionMinutos: number;
-  categoria: 'barberia' | 'spa';
+  categoria: 'caballeros' | 'damas';
   imagen?: string;
 }

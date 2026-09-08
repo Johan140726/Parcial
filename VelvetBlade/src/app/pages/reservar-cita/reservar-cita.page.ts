@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Toast } from '@capacitor/toast';
+import { Servicio } from '../../models/servicio.model';
+import { Profesional } from '../../models/profesional.model';
+import { ProfesionalesService } from '../../services/profesionales.service';
+import { CitasService } from '../../services/citas.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reservar-cita',
@@ -8,34 +15,31 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class ReservarCitaPage implements OnInit {
-  servicioSeleccionado: any;
-  especialistaSeleccionado: any = null;
-  fechaSeleccionada: string = '';
-  horarioSeleccionado: string = '';
+  servicioSeleccionado!: Servicio;
+  especialistaSeleccionado: Profesional | null = null;
+  fechaSeleccionada = '';
+  horarioSeleccionado = '';
   fechaMinima: string = new Date().toISOString();
 
-  // Especialistas para damas / estética capilar
-  especialistasDamas = [
-    { nombre: 'Valeria Gómez', estacionAsignada: 'Estación Stylist 1', calificacion: 4.9, imagen: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80' },
-    { nombre: 'Sofía Martínez', estacionAsignada: 'Estación Stylist 2', calificacion: 4.8, imagen: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80' },
-    { nombre: 'Lucía Torres', estacionAsignada: 'Estación Stylist 3', calificacion: 5.0, imagen: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80' }
+  listaEspecialistas: Profesional[] = [];
+  horariosDisponibles: string[] = [];
+  horariosOcupados: string[] = [];
+
+  cargandoHorarios = false;
+  confirmando = false;
+  errorMensaje = '';
+
+  private readonly BLOQUES_HORARIO = [
+    '09:00 AM', '10:00 AM', '11:00 AM',
+    '02:00 PM', '03:30 PM', '05:00 PM', '06:30 PM',
   ];
 
-  // Especialistas para caballeros / barbería
-  especialistasCaballeros = [
-    { nombre: 'Carlos Mendoza', estacionAsignada: 'Estación Barber 1', calificacion: 4.9, imagen: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80' },
-    { nombre: 'Mateo Rincón', estacionAsignada: 'Estación Barber 2', calificacion: 4.8, imagen: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80' },
-    { nombre: 'Andrés Vera', estacionAsignada: 'Estación Barber 3', calificacion: 5.0, imagen: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80' }
-  ];
-
-  listaEspecialistas: any[] = [];
-
-  horariosDisponibles: string[] = [
-    '09:00 AM', '10:00 AM', '11:00 AM', 
-    '02:00 PM', '03:30 PM', '05:00 PM', '06:30 PM'
-  ];
-
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private profesionalesService: ProfesionalesService,
+    private citasService: CitasService,
+    private authService: AuthService
+  ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       this.servicioSeleccionado = navigation.extras.state['servicioSeleccionado'];
@@ -48,51 +52,108 @@ export class ReservarCitaPage implements OnInit {
       return;
     }
 
-    const nombreServicio = (this.servicioSeleccionado.nombre || '').toLowerCase();
-    const descServicio = (this.servicioSeleccionado.descripcion || '').toLowerCase();
-    const categoriaServicio = (this.servicioSeleccionado.categoria || this.servicioSeleccionado.tipo || '').toLowerCase();
+    console.log('Servicio recibido:', this.servicioSeleccionado);
+    console.log('Categoría que se usa para filtrar:', this.servicioSeleccionado.categoria);
 
-    const esDama = 
-      categoriaServicio.includes('dama') || 
-      categoriaServicio.includes('mujer') || 
-      nombreServicio.includes('dama') || 
-      nombreServicio.includes('hidratación') || 
-      nombreServicio.includes('capilar') || 
-      nombreServicio.includes('cepillado') || 
-      nombreServicio.includes('maquillaje') ||
-      descServicio.includes('keratina');
-
-    this.listaEspecialistas = esDama ? this.especialistasDamas : this.especialistasCaballeros;
+    this.profesionalesService
+      .getProfesionalesPorEspecialidad(this.servicioSeleccionado.categoria)
+      .subscribe((especialistas) => {
+        console.log('Especialistas encontrados:', especialistas);
+        this.listaEspecialistas = especialistas;
+      });
   }
 
-  seleccionarEspecialista(esp: any) {
+  async seleccionarEspecialista(esp: Profesional) {
     this.especialistaSeleccionado = esp;
+    this.horarioSeleccionado = '';
+    if (this.fechaSeleccionada) {
+      await this.cargarHorariosOcupados();
+    }
   }
 
-  seleccionarHorario(hora: string) {
+  async cambiarFecha() {
+    this.horarioSeleccionado = '';
+    if (this.especialistaSeleccionado) {
+      await this.cargarHorariosOcupados();
+    }
+  }
+
+  private async cargarHorariosOcupados() {
+    if (!this.especialistaSeleccionado || !this.fechaSeleccionada) {
+      return;
+    }
+
+    this.cargandoHorarios = true;
+    const fecha = this.fechaSeleccionada.substring(0, 10);
+
+    this.citasService
+      .listarHorariosOcupados(this.especialistaSeleccionado.id!, fecha)
+      .subscribe((ocupados) => {
+        this.horariosOcupados = ocupados;
+        this.horariosDisponibles = this.BLOQUES_HORARIO;
+        this.cargandoHorarios = false;
+      });
+  }
+
+  estaOcupado(hora: string): boolean {
+    return this.horariosOcupados.includes(hora);
+  }
+
+  async seleccionarHorario(hora: string) {
+    if (this.estaOcupado(hora)) {
+      return;
+    }
     this.horarioSeleccionado = hora;
+    await Haptics.impact({ style: ImpactStyle.Light });
   }
 
   formValido(): boolean {
-    return !!this.servicioSeleccionado && 
-           !!this.especialistaSeleccionado && 
-           !!this.fechaSeleccionada && 
-           !!this.horarioSeleccionado;
+    return (
+      !!this.servicioSeleccionado &&
+      !!this.especialistaSeleccionado &&
+      !!this.fechaSeleccionada &&
+      !!this.horarioSeleccionado
+    );
   }
 
-  crearCita() {
-    if (this.formValido()) {
-      const nuevaCita = {
-        servicio: this.servicioSeleccionado,
-        especialista: this.especialistaSeleccionado,
-        fecha: this.fechaSeleccionada,
-        horario: this.horarioSeleccionado
-      };
-      console.log('Cita creada exitosamente:', nuevaCita);
-      alert('¡Cita agendada con éxito!');
-      
-      // Redirige a la página de servicios
-      this.router.navigate(['/servicios']);
+  async crearCita() {
+    if (!this.formValido() || this.confirmando) {
+      return;
     }
+
+    const usuario = this.authService.obtenerUsuarioActual();
+    if (!usuario) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.confirmando = true;
+    this.errorMensaje = '';
+
+    this.citasService
+      .crear({
+        usuarioId: usuario.id,
+        servicioId: this.servicioSeleccionado.id!,
+        servicioNombre: this.servicioSeleccionado.nombre,
+        profesionalId: this.especialistaSeleccionado!.id!,
+        profesionalNombre: this.especialistaSeleccionado!.nombre,
+        estacionAsignada: this.especialistaSeleccionado!.estacionAsignada,
+        fecha: this.fechaSeleccionada.substring(0, 10),
+        hora: this.horarioSeleccionado,
+      })
+      .subscribe({
+        next: async () => {
+          this.confirmando = false;
+          await Haptics.impact({ style: ImpactStyle.Medium });
+          await Toast.show({ text: '¡Cita agendada con éxito!', duration: 'long' });
+          this.router.navigate(['/servicios']);
+        },
+        error: async (err) => {
+          this.confirmando = false;
+          this.errorMensaje = err?.message ?? 'No se pudo agendar la cita. Intenta de nuevo.';
+          this.horarioSeleccionado = '';
+          await this.cargarHorariosOcupados();
+        },
+      });
   }
 }
