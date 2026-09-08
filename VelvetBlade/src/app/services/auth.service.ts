@@ -1,60 +1,81 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { Preferences } from '@capacitor/preferences';
+import { Observable, from } from 'rxjs';
 import { Usuario, TipoPerfil } from '../models/usuario.model';
 
-interface UsuarioApi {
-  id: string;
-  nombre: string;
-  telefono: string;
-  correo: string;
-  tipo: string;
-}
+const CLAVE_USUARIOS = 'vb_usuarios';
+const CLAVE_SESION = 'vb_usuario_actual';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  private readonly API_URL = 'http://localhost:3000/api/usuarios';
-
   private usuarioActual: Usuario | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor() {
+    // Al crear el servicio, intentamos recuperar la sesión guardada
+    // (esto es async, así que "usuarioActual" queda listo poco después,
+    // no en el mismo instante en que arranca la app).
+    this.cargarSesionGuardada();
+  }
+
+  private async cargarSesionGuardada(): Promise<void> {
+    const { value } = await Preferences.get({ key: CLAVE_SESION });
+    this.usuarioActual = value ? (JSON.parse(value) as Usuario) : null;
+  }
+
+  private async obtenerUsuarios(): Promise<Usuario[]> {
+    const { value } = await Preferences.get({ key: CLAVE_USUARIOS });
+    return value ? (JSON.parse(value) as Usuario[]) : [];
+  }
+
+  private async guardarUsuarios(usuarios: Usuario[]): Promise<void> {
+    await Preferences.set({ key: CLAVE_USUARIOS, value: JSON.stringify(usuarios) });
+  }
+
+  private async guardarSesion(usuario: Usuario): Promise<void> {
+    await Preferences.set({ key: CLAVE_SESION, value: JSON.stringify(usuario) });
+    this.usuarioActual = usuario;
+  }
 
   login(correo: string, clave: string): Observable<Usuario> {
-    return this.http.post<UsuarioApi>(`${this.API_URL}/login`, {
-      correo,
-      password: clave
-    }).pipe(
-      map((usuario) => this.convertirUsuario(usuario)),
-      tap((usuario) => {
-        this.usuarioActual = usuario;
-      })
-    );
+    return from(this.loginAsync(correo, clave));
+  }
+
+  private async loginAsync(correo: string, clave: string): Promise<Usuario> {
+    const usuarios = await this.obtenerUsuarios();
+    const encontrado = usuarios.find((u) => u.correo === correo && u.clave === clave);
+
+    if (!encontrado) {
+      throw new Error('Correo o contraseña incorrectos');
+    }
+
+    await this.guardarSesion(encontrado);
+    return encontrado;
   }
 
   registrar(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<UsuarioApi>(this.API_URL, {
-      nombre: usuario.nombreCompleto,
-      telefono: usuario.telefono,
-      correo: usuario.correo,
-      password: usuario.clave,
-      tipo: usuario.tipoPerfil.toLowerCase()
-    }).pipe(
-      map((usuarioRegistrado) => ({
-        id: Number(usuarioRegistrado.id.replace(/\D/g, '')) || undefined,
-        nombreCompleto: usuarioRegistrado.nombre,
-        telefono: usuarioRegistrado.telefono,
-        correo: usuarioRegistrado.correo,
-        clave: '',
-        tipoPerfil: this.convertirTipoPerfil(usuarioRegistrado.tipo),
-        aceptaTerminos: usuario.aceptaTerminos
-      })),
-      tap((usuarioRegistrado) => {
-        this.usuarioActual = usuarioRegistrado;
-      })
-    );
+    return from(this.registrarAsync(usuario));
+  }
+
+  private async registrarAsync(usuario: Usuario): Promise<Usuario> {
+    const usuarios = await this.obtenerUsuarios();
+
+    const yaExiste = usuarios.some((u) => u.correo === usuario.correo);
+    if (yaExiste) {
+      throw new Error('El correo ya está registrado');
+    }
+
+    const nuevoUsuario: Usuario = {
+      ...usuario,
+      id: Date.now(),
+    };
+
+    usuarios.push(nuevoUsuario);
+    await this.guardarUsuarios(usuarios);
+    await this.guardarSesion(nuevoUsuario);
+
+    return nuevoUsuario;
   }
 
   obtenerUsuarioActual(): Usuario | null {
@@ -62,6 +83,7 @@ export class AuthService {
   }
 
   cerrarSesion(): void {
+    Preferences.remove({ key: CLAVE_SESION });
     this.usuarioActual = null;
   }
 
@@ -69,21 +91,7 @@ export class AuthService {
     return this.usuarioActual !== null;
   }
 
-  private convertirUsuario(usuario: UsuarioApi): Usuario {
-    return {
-      id: Number(usuario.id.replace(/\D/g, '')) || undefined,
-      nombreCompleto: usuario.nombre,
-      telefono: usuario.telefono,
-      correo: usuario.correo,
-      clave: '',
-      tipoPerfil: this.convertirTipoPerfil(usuario.tipo),
-      aceptaTerminos: true
-    };
-  }
-
   private convertirTipoPerfil(tipo: string): TipoPerfil {
-    return tipo.toLowerCase() === 'especialista'
-      ? 'Especialista'
-      : 'Cliente';
+    return tipo.toLowerCase() === 'especialista' ? 'Especialista' : 'Cliente';
   }
 }
